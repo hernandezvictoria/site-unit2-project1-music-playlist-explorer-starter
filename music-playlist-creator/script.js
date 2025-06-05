@@ -30,8 +30,12 @@ const createSongElement = (song) => {
 const loadSongs = (songs, playlist) => {
 
     // start of modal html code
+
+
     let html = ` <div class="modal-content">
+
     <span class="close" id="close${playlist.playlistID}">&times;</span>
+    <button class ="shuffle" id="shuffle-button${playlist.playlistID}">Shuffle</button>
 
 
     <section class="modal-header">
@@ -42,7 +46,7 @@ const loadSongs = (songs, playlist) => {
         </section>
     </section>
 
-    <section class="modal-body">`;
+    <section class="modal-body" id='modal-body${playlist.playlistID}'>`;
 
     for(const song of songs){
         html += createSongElement(song); // append song code
@@ -84,7 +88,6 @@ const insertPlaylistElement = (playlist) => {
     const likes_element = document.getElementById("like-count" + playlistID); // would end up being like-count1 hopefully
     likes_element.textContent = playlist_likes;
 
-    console.log(playlist);
     loadSongs(playlist.songs, playlist); // next load the songs
 };
 
@@ -112,7 +115,6 @@ const insertPlaylistElement = (playlist) => {
     else{
         // iterate through the playlists and add each one to the elements
         for(const playlist of playlists){
-            console.log(playlist);
             insertPlaylistElement(playlist);
         }
     }
@@ -131,7 +133,6 @@ loadPlaylists();
     document.querySelector('#card' + i).addEventListener('click', () => {
         const modal = document.querySelector("#modal" + i).style.display = 'block';
     });
-
  }
 
 // close on clicking the close button
@@ -142,8 +143,142 @@ loadPlaylists();
 
 // close on clicking anywhere outside the modal
 for (let i = 1; i <= num_playlists; i++) {
-    document.querySelector('#modal' + i).addEventListener('click', () => {
-        document.querySelector('#modal' + i).style.display = 'none';
+    const modal = document.querySelector('#modal' + i);
+    modal.addEventListener('click', (event) => {
+        // only close if user clicks directly on the overlay (not modal content)
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
     });
+}
 
+
+
+
+ // =========== LIKE BUTTON ============
+
+// takes in playlistID as a string
+ const likePlaylist = (playlistID) => {
+    // get the like button element
+    const likeButton = document.getElementById("like-button" + playlistID);
+    likeButton.textContent = "♥️";
+
+    // get the like count element
+    const likeCount = document.getElementById("like-count" + playlistID);
+    let likeCountInt = parseInt(likeCount.textContent);
+    likeCountInt += 1; // increment
+    likeCount.textContent = likeCountInt.toString(); // update graphically
+
+    playlists[parseInt(playlistID) - 1].likes = likeCountInt; // update logically
+ };
+
+ const unlikePlaylist = (playlistID) => {
+    // get the like button element
+    const likeButton = document.getElementById("like-button" + playlistID);
+    likeButton.textContent = "♡";
+
+    // get the like count element
+    const likeCount = document.getElementById("like-count" + playlistID);
+    let likeCountInt = parseInt(likeCount.textContent);
+    likeCountInt -= 1; // decrement
+    likeCount.textContent = likeCountInt.toString(); // update graphically
+
+    playlists[parseInt(playlistID) - 1].likes = likeCountInt; // update logically
  }
+
+
+
+for (let i = 1; i <= num_playlists; i++) {
+    document.querySelector('#like-button' + i).addEventListener('click', (event) => {
+      event.stopPropagation(); // prevent click from bubbling to playlist
+      if (event.target.textContent === "♡") {
+        likePlaylist(i);
+      } else {
+        unlikePlaylist(i);
+    }
+    });
+}
+
+
+
+  // =========== SHUFFLE BUTTON ============
+
+//   const shufflePlaylist = (playlistID) => {
+//     console.log(playlistID);
+//     let songs = playlists[parseInt(playlistID) - 1].songs;
+
+//     console.log(songs);
+
+//     // Here is the Fisher-Yates shuffle algorithm found on stack overflow
+
+//     let currentIndex = songs.length;
+
+//     // While there remain elements to shuffle...
+//     while (currentIndex != 0) {
+
+//         // Pick a remaining element...
+//         let randomIndex = Math.floor(Math.random() * currentIndex);
+//         currentIndex--;
+
+//         // And swap it with the current element.
+//         [songs[currentIndex], songs[randomIndex]] = [songs[randomIndex], songs[currentIndex]];
+//     }
+
+//     console.log(songs);
+
+//     // update the songs in the playlist
+//     playlists[parseInt(playlistID) - 1].songs = songs;
+
+//     // update the modal
+//     loadSongs(songs, playlists[parseInt(playlistID) - 1]);
+//   }
+
+
+const shufflePlaylist = (playlistID) => {
+    const playlistIndex = parseInt(playlistID) - 1;
+
+    // Clone the array to preserve the original order for comparison
+    let songs = [...playlists[playlistIndex].songs]; // shallow copy
+
+    console.log("Before shuffle:", songs);
+
+    // Fisher-Yates shuffle
+    let currentIndex = songs.length;
+    while (currentIndex != 0) {
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [songs[currentIndex], songs[randomIndex]] = [songs[randomIndex], songs[currentIndex]];
+    }
+
+    console.log("After shuffle:", songs);
+
+    // Update playlist
+    playlists[playlistIndex].songs = songs;
+
+    // // Update modal
+    // loadSongs(songs, playlists[playlistIndex]);
+};
+
+const updateSongs = (songs, playlistID) =>{
+    console.log("updateSongs called");
+    html = ``;
+    for(const song of songs){
+        html += createSongElement(song); // append song code
+    }
+
+    let newBody = document.createElement("section");
+    newBody.className = "modal-body";
+    newBody.id = "modal-body" + playlistID;
+
+    const modalBody = document.getElementById('modal-body' + playlistID);
+
+    modalBody.replaceWith(newBody);
+}
+
+
+  for (let i = 1; i <= num_playlists; i++) {
+    document.getElementById('shuffle-button' + i).addEventListener('click', () => {
+        shufflePlaylist(''+i);
+        updateSongs(playlists[i-1].songs, i);
+    });
+    }
