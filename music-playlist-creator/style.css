@@ -107,6 +107,8 @@ h1{
     margin: 5% auto;
     padding: 30px;
     width: 50%;
+    height: 50%;
+    overflow:scroll;
     max-width: 700px;
     border-radius: 12px;
     color: white;
@@ -138,7 +140,7 @@ h1{
  }
 
 
- .model-body {
+ .modal-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
