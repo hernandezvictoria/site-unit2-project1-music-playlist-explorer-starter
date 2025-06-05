@@ -30,8 +30,6 @@ const createSongElement = (song) => {
 const loadSongs = (songs, playlist) => {
 
     // start of modal html code
-
-
     let html = ` <div class="modal-content">
 
     <span class="close" id="close${playlist.playlistID}">&times;</span>
@@ -94,10 +92,8 @@ const insertPlaylistElement = (playlist) => {
 
  // parse through the playlists hashmap to populate the playlist cards
  const loadPlaylists = () => {
-    console.log("loadPlaylists called");
 
     if(!playlists){
-        console.log("No playlists to display");
 
         // Display error message on a popup modal
         const errorElement = document.createElement("div");
@@ -121,35 +117,41 @@ const insertPlaylistElement = (playlist) => {
 
 };
 
-// call loadPlaylists
-loadPlaylists();
+// call loadPlaylists, only do this if we are on the index.html page
+if (window.location.pathname.includes("index.html")) {
+    loadPlaylists();
+  }
+
 
 
 
 // =========== DISPLAYING/CLOSING THE MODAL ============
 
-// open appropriate modal when clicking the card
- for (let i = 1; i <= num_playlists; i++) {
-    document.querySelector('#card' + i).addEventListener('click', () => {
-        const modal = document.querySelector("#modal" + i).style.display = 'block';
-    });
- }
+// only do this if we are on the index.html page
+if (window.location.pathname.includes("index.html")) {
+    // open appropriate modal when clicking the card
+    for (let i = 1; i <= num_playlists; i++) {
+        document.querySelector('#card' + i).addEventListener('click', () => {
+            const modal = document.querySelector("#modal" + i).style.display = 'block';
+        });
+    }
 
-// close on clicking the close button
- for (let i = 1; i <= num_playlists; i++) {
-    document.querySelector('#close' + i).addEventListener('click', () => {
-        document.querySelector('#modal' + i).style.display = 'none';
-    });}
+    // close on clicking the close button
+    for (let i = 1; i <= num_playlists; i++) {
+        document.querySelector('#close' + i).addEventListener('click', () => {
+            document.querySelector('#modal' + i).style.display = 'none';
+        });}
 
-// close on clicking anywhere outside the modal
-for (let i = 1; i <= num_playlists; i++) {
-    const modal = document.querySelector('#modal' + i);
-    modal.addEventListener('click', (event) => {
-        // only close if user clicks directly on the overlay (not modal content)
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    // close on clicking anywhere outside the modal
+    for (let i = 1; i <= num_playlists; i++) {
+        const modal = document.querySelector('#modal' + i);
+        modal.addEventListener('click', (event) => {
+            // only close if user clicks directly on the overlay (not modal content)
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
 }
 
 
@@ -187,16 +189,18 @@ for (let i = 1; i <= num_playlists; i++) {
  }
 
 
-
-for (let i = 1; i <= num_playlists; i++) {
-    document.querySelector('#like-button' + i).addEventListener('click', (event) => {
-      event.stopPropagation(); // prevent click from bubbling to playlist
-      if (event.target.textContent === "♡") {
-        likePlaylist(i);
-      } else {
-        unlikePlaylist(i);
+// only do this if we are on the index.html page
+if (window.location.pathname.includes("index.html")) {
+    for (let i = 1; i <= num_playlists; i++) {
+        document.querySelector('#like-button' + i).addEventListener('click', (event) => {
+        event.stopPropagation(); // prevent click from bubbling to playlist
+        if (event.target.textContent === "♡") {
+            likePlaylist(i);
+        } else {
+            unlikePlaylist(i);
+        }
+        });
     }
-    });
 }
 
 
@@ -209,8 +213,6 @@ const shufflePlaylist = (playlistID) => {
     // Clone the array to preserve the original order for comparison
     let songs = [...playlists[playlistIndex].songs]; // shallow copy
 
-    console.log("Before shuffle:", songs);
-
     // Fisher-Yates shuffle
     let currentIndex = songs.length;
     while (currentIndex != 0) {
@@ -219,15 +221,11 @@ const shufflePlaylist = (playlistID) => {
         [songs[currentIndex], songs[randomIndex]] = [songs[randomIndex], songs[currentIndex]];
     }
 
-    console.log("After shuffle:", songs);
-
     // Update playlist
     playlists[playlistIndex].songs = songs;
 };
 
 const updateSongs = (songs, playlistID) =>{
-    console.log("updateSongs called");
-    console.log(songs);
     html = ``;
     for(const song of songs){
         html += createSongElement(song); // append song code
@@ -239,16 +237,46 @@ const updateSongs = (songs, playlistID) =>{
     newBody.innerHTML = html;
 
     const modalBody = document.getElementById('modal-body' + playlistID);
-    console.log(modalBody);
-    console.log(newBody);
 
     modalBody.replaceWith(newBody);
 }
 
-
+// only do this if we are on the index.html page
+if (window.location.pathname.includes("index.html")) {
   for (let i = 1; i <= num_playlists; i++) {
     document.getElementById('shuffle-button' + i).addEventListener('click', () => {
         shufflePlaylist(''+i);
         updateSongs(playlists[i-1].songs, i);
     });
     }
+}
+
+
+// =========== FEATURED PAGE ============
+
+const loadFeaturedPlaylist = (playlist) => {
+
+    // update the name and creator of the featured playlist
+    document.getElementById("featured-playlist-name").textContent = playlist.playlist_name;
+    document.getElementById("featured-playlist-creator").textContent = 'Created by ' + playlist.playlist_author;
+
+    songs = playlist.songs;
+    // update the songs
+    html = ``;
+    for(const song of songs){
+        html += createSongElement(song); // append song code
+    }
+
+    let newBody = document.createElement("section");
+    newBody.className = "modal-body";
+    newBody.id = "modal-body" + playlist.playlistID;
+    newBody.innerHTML = html;
+
+    const featuredBody = document.getElementById('featured-body');
+
+    featuredBody.replaceWith(newBody);
+}
+
+if (window.location.pathname.includes("featured.html")) {
+    loadFeaturedPlaylist(playlists[Math.floor(Math.random() * num_playlists)]);
+}
