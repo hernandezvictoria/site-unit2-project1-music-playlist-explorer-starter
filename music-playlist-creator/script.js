@@ -203,37 +203,6 @@ for (let i = 1; i <= num_playlists; i++) {
 
   // =========== SHUFFLE BUTTON ============
 
-//   const shufflePlaylist = (playlistID) => {
-//     console.log(playlistID);
-//     let songs = playlists[parseInt(playlistID) - 1].songs;
-
-//     console.log(songs);
-
-//     // Here is the Fisher-Yates shuffle algorithm found on stack overflow
-
-//     let currentIndex = songs.length;
-
-//     // While there remain elements to shuffle...
-//     while (currentIndex != 0) {
-
-//         // Pick a remaining element...
-//         let randomIndex = Math.floor(Math.random() * currentIndex);
-//         currentIndex--;
-
-//         // And swap it with the current element.
-//         [songs[currentIndex], songs[randomIndex]] = [songs[randomIndex], songs[currentIndex]];
-//     }
-
-//     console.log(songs);
-
-//     // update the songs in the playlist
-//     playlists[parseInt(playlistID) - 1].songs = songs;
-
-//     // update the modal
-//     loadSongs(songs, playlists[parseInt(playlistID) - 1]);
-//   }
-
-
 const shufflePlaylist = (playlistID) => {
     const playlistIndex = parseInt(playlistID) - 1;
 
@@ -254,13 +223,11 @@ const shufflePlaylist = (playlistID) => {
 
     // Update playlist
     playlists[playlistIndex].songs = songs;
-
-    // // Update modal
-    // loadSongs(songs, playlists[playlistIndex]);
 };
 
 const updateSongs = (songs, playlistID) =>{
     console.log("updateSongs called");
+    console.log(songs);
     html = ``;
     for(const song of songs){
         html += createSongElement(song); // append song code
@@ -269,8 +236,11 @@ const updateSongs = (songs, playlistID) =>{
     let newBody = document.createElement("section");
     newBody.className = "modal-body";
     newBody.id = "modal-body" + playlistID;
+    newBody.innerHTML = html;
 
     const modalBody = document.getElementById('modal-body' + playlistID);
+    console.log(modalBody);
+    console.log(newBody);
 
     modalBody.replaceWith(newBody);
 }
