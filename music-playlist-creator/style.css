@@ -18,7 +18,7 @@ h1{
  }
 
 
- .playlist-cards-1{
+ /* .playlist-cards-1{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,7 +33,15 @@ h1{
     justify-content: space-between;
     gap:20px;
     margin: 20px;
- }
+ } */
+
+ .playlist-row{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   gap:20px;
+   margin:20px;
+}
 
 
  .card:hover{
@@ -52,6 +60,7 @@ h1{
     align-items: center;
     transition: background-color 0.3s ease;
     text-align: center;
+    width:25%;
  }
 
  a{
@@ -86,12 +95,11 @@ h1{
 }
 
 
-
+/* --- FEATURED PLAYLIST SECTION --- */
 .featured-playlist{
    display: flex;
     width:100%;
     height:100%;
-    /* transform: translate(-50%, -50%); */
 }
 
 .featured-playlist-content {
@@ -104,6 +112,8 @@ h1{
     font-family: 'Arial', sans-serif;
 }
 
+
+/* MODAL */
  .modal-overlay {
     display: none;
     position: fixed;

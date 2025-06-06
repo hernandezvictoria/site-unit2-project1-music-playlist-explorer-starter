@@ -1,6 +1,6 @@
 // =========== DYNAMICALLY ADDING THE MODAL SONG ELEMENTS ============
 
-let num_playlists = 8;
+let num_playlists = playlists.length;
 
 // takes in one song object and returns the html code for the song
 const createSongElement = (song) => {
@@ -67,28 +67,52 @@ const loadSongs = (songs, playlist) => {
 // ======= ADDING PLAYLIST ELEMENTS =======
 
 //given a playlist JSON, put edit the default playlists to be this playlist
-const insertPlaylistElement = (playlist) => {
+// const insertPlaylistElement = (playlist) => {
+//     let playlistID = playlist.playlistID;
+//     let playlist_name = playlist.playlist_name;
+//     let playlist_author = playlist.playlist_author;
+//     let playlist_likes = playlist.likes;
+
+
+//     // set title/name
+//     const title_element = document.getElementById("playlist-title" + playlistID); // would end up being playlist-title1 hopefully
+//     title_element.textContent = playlist_name;
+
+//     //set author
+//     const author_element = document.getElementById("playlist-author" + playlistID); // would end up being playlist-author1 hopefully
+//     author_element.textContent = playlist_author;
+
+//     //set likes
+//     const likes_element = document.getElementById("like-count" + playlistID); // would end up being like-count1 hopefully
+//     likes_element.textContent = playlist_likes;
+
+//     loadSongs(playlist.songs, playlist); // next load the songs
+// };
+
+
+const createPlaylistElement = (playlist) => {
+
     let playlistID = playlist.playlistID;
     let playlist_name = playlist.playlist_name;
     let playlist_author = playlist.playlist_author;
     let playlist_likes = playlist.likes;
 
+    html = `
+    <section class="card" id="card${playlistID}">
+        <img class="playlist-img" src="assets/img/playlist.png" alt="playlist">
+        <h3 id="playlist-title1">${playlist_name}</h3>
+        <h4 id="playlist-author1">Created By ${playlist_author}</h4>
 
-    // set title/name
-    const title_element = document.getElementById("playlist-title" + playlistID); // would end up being playlist-title1 hopefully
-    title_element.textContent = playlist_name;
 
-    //set author
-    const author_element = document.getElementById("playlist-author" + playlistID); // would end up being playlist-author1 hopefully
-    author_element.textContent = playlist_author;
+        <section class="likes">
+            <p class="like-image" id="like-button${playlistID}" >♡</p>
+            <p id="like-count${playlistID}">${playlist_likes}</p>
+        </section>
 
-    //set likes
-    const likes_element = document.getElementById("like-count" + playlistID); // would end up being like-count1 hopefully
-    likes_element.textContent = playlist_likes;
-
-    loadSongs(playlist.songs, playlist); // next load the songs
-};
-
+    </section>
+    `
+    return html;
+}
 
  // parse through the playlists hashmap to populate the playlist cards
  const loadPlaylists = () => {
@@ -110,11 +134,29 @@ const insertPlaylistElement = (playlist) => {
     }
     else{
         // iterate through the playlists and add each one to the elements
-        for(const playlist of playlists){
-            insertPlaylistElement(playlist);
+        // for(const playlist of playlists){
+        //     insertPlaylistElement(playlist);
+        // }
+        html = `<section class="playlist-row">`;
+        for(let i = 0; i < num_playlists; i++){
+            if (i % 4 === 0 && i !== 0) {
+                console.log(i);
+                //close the row and start a new one
+                html += `</section>`;
+                html += `<section class="playlist-row">`;
+            }
+            loadSongs(playlists[i].songs, playlists[i]);
+            html += createPlaylistElement(playlists[i]); // append playlist code
         }
-    }
+        html += `</section>`;
 
+        playlistsElement = document.getElementById("playlist-container");
+        playlistsElement.innerHTML = html; // update the html
+
+        //loadSongs(playlist.songs, playlist); // next load the songs
+
+
+    }
 };
 
 // call loadPlaylists, only do this if we are on the index.html page
@@ -139,6 +181,8 @@ if (!window.location.pathname.includes("featured.html")) {
 
 // only do this if we are on the index.html page
 if (!window.location.pathname.includes("featured.html")) {
+    num_playlists = playlists.length;
+    console.log(num_playlists);
     console.log("loading modals");
     // open appropriate modal when clicking the card
     for (let i = 1; i <= num_playlists; i++) {

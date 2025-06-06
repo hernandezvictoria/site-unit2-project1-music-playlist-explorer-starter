@@ -341,5 +341,47 @@ let playlists = [
                 "song_duration": "3:33"
             }
         ]
+    },
+    {
+        "playlistID": "9",
+        "playlist_name": "Workout (6)",
+        "playlist_author": "Victoria Hernandez",
+        "playlist_art": undefined,
+        "likes": 0,
+        "songs": [
+            {
+                "songID": "1",
+                "song_name": "Work Out",
+                "song_artist": "J. Cole",
+                "song_art": undefined,
+                "song_album": "Cole World: The Sideline Story",
+                "song_duration": "3:55"
+
+            },
+            {
+                "songID": "2",
+                "song_name": "Starboy",
+                "song_artist": "The Weeknd",
+                "song_art": undefined,
+                "song_album": "Starboy",
+                "song_duration": "2:50"
+            },
+            {
+                "songID": "3",
+                "song_name": "Swimming Pools",
+                "song_artist": "Kendrick Lamar",
+                "song_art": undefined,
+                "song_album": "good kid, m.A.A.d city (Deluxe)",
+                "song_duration": "5:12"
+            },
+            {
+                "songID": "4",
+                "song_name": "Savage",
+                "song_artist": "Megan Thee Stallion",
+                "song_art": undefined,
+                "song_album": "Suga",
+                "song_duration": "3:33"
+            }
+        ]
     }
 ]
