@@ -378,11 +378,12 @@ if (!window.location.pathname.includes("featured.html")) {
                 }]
             }
 
-        console.log(new_playlist);
-
         playlists.push(new_playlist);
 
-        console.log(playlists);
+        //re-number the playlist IDs
+        for (let i = 1; i <= playlists.length; i++) {
+            playlists[i-1].playlistID = i + '';
+        }
 
         loadPlaylists(); // update the playlist cards
 
@@ -477,6 +478,7 @@ if (!window.location.pathname.includes("featured.html")) {
 
         const author = document.querySelector("#search-by-author").value;
         playlists = playlists.filter(playlist => playlist.playlist_author.toLowerCase().includes(author.toLowerCase()));
+
         //re-number the playlist IDs
         for (let i = 1; i <= playlists.length; i++) {
             playlists[i-1].playlistID = i + '';
