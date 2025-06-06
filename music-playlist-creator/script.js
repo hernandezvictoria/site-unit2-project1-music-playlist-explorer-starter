@@ -1,5 +1,5 @@
+let date = 1;
 // =========== DYNAMICALLY ADDING THE MODAL SONG ELEMENTS ============
-
 
 // takes in one song object and returns the html code for the song
 const createSongElement = (song) => {
@@ -365,6 +365,7 @@ if (!window.location.pathname.includes("featured.html")) {
             "playlist_author": playlist_author,
             "playlist_art": undefined,
             "likes": 0,
+            "date_created": date++,
             "songs": [
                 {
                     "songID": "1",
@@ -408,23 +409,20 @@ sortBySelect.addEventListener('change', function(event) {
 
     switch (selectedValue) {
         case 'no-sort':
-            // Handle no sorting
+            // no sorting applied, do nothing
             console.log('No sorting applied');
             break;
         case 'sort-by-name':
-            // Handle sorting by playlist name A-Z
             console.log('Sorting by playlist name A-Z');
             sortByName();
             break;
         case 'sort-by-likes':
-            // Handle sorting by number of likes (descending)
             console.log('Sorting by number of likes (descending)');
             sortByLikes();
             break;
         case 'sort-by-date':
-            // Handle sorting by date added
             console.log('Sorting by date added');
-            // sortByDateFunction();
+            sortByDate();
             break;
         default:
             console.log('Unknown sort option');
@@ -440,5 +438,11 @@ const sortByName= () => {
 const sortByLikes = () => {
     // Sort the playlists array by playlist_name
     playlists = playlists.sort((a, b) => parseInt(b.likes) - parseInt(a.likes));
+    loadPlaylists();
+}
+
+const sortByDate = () => {
+    // Sort the playlists array by playlist_name
+    playlists = playlists.sort((a, b) => b.date_created - a.date_created);
     loadPlaylists();
 }

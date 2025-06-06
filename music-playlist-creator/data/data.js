@@ -5,6 +5,7 @@ let playlists = [
         "playlist_author": "V. Hernandez",
         "playlist_art": undefined,
         "likes": 10,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -48,6 +49,7 @@ let playlists = [
         "playlist_author": "Spotify",
         "playlist_art": undefined,
         "likes": 1,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -91,6 +93,7 @@ let playlists = [
         "playlist_author": "Vic",
         "playlist_art": undefined,
         "likes": 3,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -134,6 +137,7 @@ let playlists = [
         "playlist_author": "LDR Luvr",
         "playlist_art": undefined,
         "likes": 5,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -177,6 +181,7 @@ let playlists = [
         "playlist_author": "Victoria Hernandez",
         "playlist_art": undefined,
         "likes": 0,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -220,6 +225,7 @@ let playlists = [
         "playlist_author": "Victoria Hernandez",
         "playlist_art": undefined,
         "likes": 0,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -263,6 +269,7 @@ let playlists = [
         "playlist_author": "Victoria Hernandez",
         "playlist_art": undefined,
         "likes": 0,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -306,6 +313,7 @@ let playlists = [
         "playlist_author": "Victoria Hernandez",
         "playlist_art": undefined,
         "likes": 0,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
@@ -348,6 +356,7 @@ let playlists = [
         "playlist_author": "Victoria Hernandez",
         "playlist_art": undefined,
         "likes": 0,
+        "date_created": 0,
         "songs": [
             {
                 "songID": "1",
