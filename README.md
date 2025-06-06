@@ -134,13 +134,20 @@ Deployed Application (**required**): [Music Playlist Explorer Deployed Site] (ht
 
 `TODO://` Add the embedded URL code to your animated app walkthrough below, `ADD_EMBEDDED_CODE_HERE`. Make sure the video actually renders and is playable when viewing this README. Ensure your walkthrough showcases the presence and/or functionality of all features you implemented above (check them off as you film!). Pay attention to any **VIDEO WALKTHROUGH SPECIAL INSTRUCTIONS** checkboxes listed above to ensure graders see the full functionality of your website! (🚫 Remove this paragraph after adding walkthrough video)
 
-`ADD_EMBEDDED_CODE_HERE`
+`<div>
+    <a href="https://www.loom.com/share/7dc1c41e9cc14415b56a8df24cc56258">
+      <p>Music Playlist Explorer - Victoria Hernandez - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/7dc1c41e9cc14415b56a8df24cc56258">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/7dc1c41e9cc14415b56a8df24cc56258-13681a4034a41def-full-play.gif">
+    </a>
+  </div>`
 
 ### Reflection
 
 * Did the topics discussed in your labs prepare you to complete the assignment? Be specific, which features in your weekly assignment did you feel unprepared to complete?
 
-I thought the book reviews lab (Lab 4) was particularly helpful in preparing me for all of the stretch feature functionality (dropdown menus, forms, etc.)
+I thought the book reviews lab (Lab 4) was particularly helpful in preparing me for all of the stretch feature functionality (dropdown menus, forms, etc.). The tomato timer lab was also a really great introduction to the basics of JS and how it interacts with HTML and CSS.
 
 * If you had more time, what would you have done differently? Would you have added additional features? Changed the way your project responded to a particular event, etc.
   
