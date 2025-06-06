@@ -1,5 +1,3 @@
-📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
-
 ## Unit Assignment: Music Playlist Explorer
 
 Submitted by: **Victoria Hernandez**
@@ -50,9 +48,9 @@ Deployed Application (**required**): [Music Playlist Explorer Deployed Site] (ht
     - [x] If previously liked:
       - [x] The like count on the playlist tile should decrease by 1.
       - [x] There should be visual feedback (such as the heart turning a different color) to show that the playlist has been unliked by the user.
-    - [] **VIDEO WALKTHROUGH SPECIAL INSTRUCTIONS:** In addition to showcasing the above features, for ease of grading, please film yourself liking and unliking:
-      - [] a playlist with a like count of 0
-      - [] a playlist with a non-zero like count
+    - [ ] **VIDEO WALKTHROUGH SPECIAL INSTRUCTIONS:** In addition to showcasing the above features, for ease of grading, please film yourself liking and unliking:
+      - [ ] a playlist with a like count of 0
+      - [ ] a playlist with a non-zero like count
 
 - [x] **Shuffle Songs**
   - [x] Enable users to shuffle the songs within a playlist using a shuffle button in the playlist's detail modal.
@@ -84,7 +82,7 @@ Deployed Application (**required**): [Music Playlist Explorer Deployed Site] (ht
     - [x] Add one or more songs to the playlist, specifying the song's:
       - [x] Title
       - [x] Artist
-  - x ] The resulting playlist should display in the grid view.
+  - [x] The resulting playlist should display in the grid view.
   - [ ] **VIDEO WALKTHROUGH SPECIAL INSTRUCTIONS:** For ease of grading, please show yourself adding at least two songs to the playlist. 
 
 - [ ] **Edit Existing Playlists**
