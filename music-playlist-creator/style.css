@@ -45,6 +45,7 @@ h1{
 
 
  .card:hover{
+   cursor: pointer;
     background-color: gray;
     border-radius: 5%;
  }
@@ -230,3 +231,21 @@ h1{
    display:flex;
    flex-direction: column;
  }
+
+
+#sort-div{
+   display:flex;
+}
+
+#sort-containter{
+   background-color: green;
+   padding: 20px;
+   width:50%;
+   margin-left: auto;
+   margin-right: auto;
+   border-radius: 5%;
+}
+
+#sort-by:hover{
+   cursor: pointer;
+}

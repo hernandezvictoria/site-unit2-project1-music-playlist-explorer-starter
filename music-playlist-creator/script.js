@@ -234,10 +234,7 @@ const shuffleClickResponse = () => {
 
 // =========== DELETE PLAYLISTS ============
 const deletePlaylist = (playlistID) =>{
-
-    for (playlist of playlists){
-        console.log(playlist.playlistID);
-    }
+    console.log("before", playlists);
 
     playlists = playlists.filter(playlist => parseInt(playlist.playlistID) !== parseInt(playlistID));
 
@@ -245,6 +242,8 @@ const deletePlaylist = (playlistID) =>{
     for (let i = 1; i <= playlists.length; i++) {
         playlists[i-1].playlistID = i + '';
     }
+
+    console.log("after", playlists);
 
     // WANT TO CALL LOAD PLAYLISTS HERE
     loadPlaylists();
@@ -395,5 +394,51 @@ if (!window.location.pathname.includes("featured.html")) {
 }
 
 if (!window.location.pathname.includes("featured.html")) {
+    loadPlaylists();
+}
+
+
+// =========== SORT PLAYLISTS ============
+// Get the select element by its ID
+const sortBySelect = document.getElementById('sort-by');
+
+// Add an event listener for when the selection changes
+sortBySelect.addEventListener('change', function(event) {
+    const selectedValue = event.target.value;
+
+    switch (selectedValue) {
+        case 'no-sort':
+            // Handle no sorting
+            console.log('No sorting applied');
+            break;
+        case 'sort-by-name':
+            // Handle sorting by playlist name A-Z
+            console.log('Sorting by playlist name A-Z');
+            sortByName();
+            break;
+        case 'sort-by-likes':
+            // Handle sorting by number of likes (descending)
+            console.log('Sorting by number of likes (descending)');
+            sortByLikes();
+            break;
+        case 'sort-by-date':
+            // Handle sorting by date added
+            console.log('Sorting by date added');
+            // sortByDateFunction();
+            break;
+        default:
+            console.log('Unknown sort option');
+    }
+});
+
+const sortByName= () => {
+    // Sort the playlists array by playlist_name
+    playlists = playlists.sort((a, b) => a.playlist_name.localeCompare(b.playlist_name));
+    loadPlaylists();
+}
+
+const sortByLikes = () => {
+    // Sort the playlists array by playlist_name
+    playlists = playlists.sort((a, b) => parseInt(b.likes) - parseInt(a.likes));
     loadPlaylists();
 }
