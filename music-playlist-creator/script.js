@@ -118,9 +118,19 @@ const insertPlaylistElement = (playlist) => {
 };
 
 // call loadPlaylists, only do this if we are on the index.html page
-if (window.location.pathname.includes("index.html")) {
+
+// if (window.location.pathname.includes("index.html")) {
+//     // wait for the page to load
+//     console.log("loading playlists");
+//     loadPlaylists();
+// }
+
+if (!window.location.pathname.includes("featured.html")) {
     loadPlaylists();
-  }
+}
+
+
+
 
 
 
@@ -128,7 +138,8 @@ if (window.location.pathname.includes("index.html")) {
 // =========== DISPLAYING/CLOSING THE MODAL ============
 
 // only do this if we are on the index.html page
-if (window.location.pathname.includes("index.html")) {
+if (!window.location.pathname.includes("featured.html")) {
+    console.log("loading modals");
     // open appropriate modal when clicking the card
     for (let i = 1; i <= num_playlists; i++) {
         document.querySelector('#card' + i).addEventListener('click', () => {
@@ -190,7 +201,7 @@ if (window.location.pathname.includes("index.html")) {
 
 
 // only do this if we are on the index.html page
-if (window.location.pathname.includes("index.html")) {
+if (!window.location.pathname.includes("featured.html")) {
     for (let i = 1; i <= num_playlists; i++) {
         document.querySelector('#like-button' + i).addEventListener('click', (event) => {
         event.stopPropagation(); // prevent click from bubbling to playlist
@@ -242,7 +253,7 @@ const updateSongs = (songs, playlistID) =>{
 }
 
 // only do this if we are on the index.html page
-if (window.location.pathname.includes("index.html")) {
+if (!window.location.pathname.includes("featured.html")) {
   for (let i = 1; i <= num_playlists; i++) {
     document.getElementById('shuffle-button' + i).addEventListener('click', () => {
         shufflePlaylist(''+i);
