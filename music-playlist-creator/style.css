@@ -215,3 +215,18 @@ h1{
     margin: 2px 0;
     color: #ccc;
  }
+
+
+ /* form */
+ #form-container {
+   background-color: green;
+   width:50%;
+   margin-left: auto;
+   margin-right: auto;
+   padding:20px;
+ }
+
+ #add-playlist-form{
+   display:flex;
+   flex-direction: column;
+ }

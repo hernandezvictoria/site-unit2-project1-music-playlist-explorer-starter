@@ -1,6 +1,5 @@
 // =========== DYNAMICALLY ADDING THE MODAL SONG ELEMENTS ============
 
-let num_playlists = playlists.length;
 
 // takes in one song object and returns the html code for the song
 const createSongElement = (song) => {
@@ -66,30 +65,6 @@ const loadSongs = (songs, playlist) => {
 
 // ======= ADDING PLAYLIST ELEMENTS =======
 
-//given a playlist JSON, put edit the default playlists to be this playlist
-// const insertPlaylistElement = (playlist) => {
-//     let playlistID = playlist.playlistID;
-//     let playlist_name = playlist.playlist_name;
-//     let playlist_author = playlist.playlist_author;
-//     let playlist_likes = playlist.likes;
-
-
-//     // set title/name
-//     const title_element = document.getElementById("playlist-title" + playlistID); // would end up being playlist-title1 hopefully
-//     title_element.textContent = playlist_name;
-
-//     //set author
-//     const author_element = document.getElementById("playlist-author" + playlistID); // would end up being playlist-author1 hopefully
-//     author_element.textContent = playlist_author;
-
-//     //set likes
-//     const likes_element = document.getElementById("like-count" + playlistID); // would end up being like-count1 hopefully
-//     likes_element.textContent = playlist_likes;
-
-//     loadSongs(playlist.songs, playlist); // next load the songs
-// };
-
-
 const createPlaylistElement = (playlist) => {
 
     let playlistID = playlist.playlistID;
@@ -108,68 +83,15 @@ const createPlaylistElement = (playlist) => {
             <p class="like-image" id="like-button${playlistID}" >♡</p>
             <p id="like-count${playlistID}">${playlist_likes}</p>
         </section>
-
+        <p class=delete id="delete${playlistID}">❌</p>
     </section>
     `
     return html;
 }
 
- // parse through the playlists hashmap to populate the playlist cards
- const loadPlaylists = () => {
-
-    if(!playlists){
-
-        // Display error message on a popup modal
-        const errorElement = document.createElement("div");
-        errorElement.innerHTML  = `
-        <section class="modal-overlay">
-            <div class="modal-content">
-                <h1>No Playlists to Display :( <h1>
-            </div>
-        </section>
-        `
-
-        const body = document.querySelector("body");
-        body.append(errorElement);
-    }
-    else{
-        // iterate through the playlists and add each one to the elements
-        // for(const playlist of playlists){
-        //     insertPlaylistElement(playlist);
-        // }
-        html = `<section class="playlist-row">`;
-        for(let i = 0; i < num_playlists; i++){
-            if (i % 4 === 0 && i !== 0) {
-                console.log(i);
-                //close the row and start a new one
-                html += `</section>`;
-                html += `<section class="playlist-row">`;
-            }
-            loadSongs(playlists[i].songs, playlists[i]);
-            html += createPlaylistElement(playlists[i]); // append playlist code
-        }
-        html += `</section>`;
-
-        playlistsElement = document.getElementById("playlist-container");
-        playlistsElement.innerHTML = html; // update the html
-
-        //loadSongs(playlist.songs, playlist); // next load the songs
 
 
-    }
-};
 
-// call loadPlaylists, only do this if we are on the index.html page
-
-// if (window.location.pathname.includes("index.html")) {
-//     // wait for the page to load
-//     console.log("loading playlists");
-//     loadPlaylists();
-// }
-
-if (!window.location.pathname.includes("featured.html")) {
-    loadPlaylists();
-}
 
 
 
@@ -180,32 +102,33 @@ if (!window.location.pathname.includes("featured.html")) {
 // =========== DISPLAYING/CLOSING THE MODAL ============
 
 // only do this if we are on the index.html page
-if (!window.location.pathname.includes("featured.html")) {
-    num_playlists = playlists.length;
-    console.log(num_playlists);
+const modalClickResponse = () => {
     console.log("loading modals");
-    // open appropriate modal when clicking the card
-    for (let i = 1; i <= num_playlists; i++) {
-        document.querySelector('#card' + i).addEventListener('click', () => {
-            const modal = document.querySelector("#modal" + i).style.display = 'block';
-        });
-    }
+    if (!window.location.pathname.includes("featured.html")) {
+        console.log("loading modals");
+        // open appropriate modal when clicking the card
+        for (let i = 1; i <= playlists.length; i++) {
+            document.querySelector('#card' + i).addEventListener('click', () => {
+                const modal = document.querySelector("#modal" + i).style.display = 'block';
+            });
+        }
 
-    // close on clicking the close button
-    for (let i = 1; i <= num_playlists; i++) {
-        document.querySelector('#close' + i).addEventListener('click', () => {
-            document.querySelector('#modal' + i).style.display = 'none';
-        });}
+        // close on clicking the close button
+        for (let i = 1; i <= playlists.length; i++) {
+            document.querySelector('#close' + i).addEventListener('click', () => {
+                document.querySelector('#modal' + i).style.display = 'none';
+            });}
 
-    // close on clicking anywhere outside the modal
-    for (let i = 1; i <= num_playlists; i++) {
-        const modal = document.querySelector('#modal' + i);
-        modal.addEventListener('click', (event) => {
-            // only close if user clicks directly on the overlay (not modal content)
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
+        // close on clicking anywhere outside the modal
+        for (let i = 1; i <= playlists.length; i++) {
+            const modal = document.querySelector('#modal' + i);
+            modal.addEventListener('click', (event) => {
+                // only close if user clicks directly on the overlay (not modal content)
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     }
 }
 
@@ -243,18 +166,19 @@ if (!window.location.pathname.includes("featured.html")) {
     playlists[parseInt(playlistID) - 1].likes = likeCountInt; // update logically
  }
 
-
-// only do this if we are on the index.html page
-if (!window.location.pathname.includes("featured.html")) {
-    for (let i = 1; i <= num_playlists; i++) {
-        document.querySelector('#like-button' + i).addEventListener('click', (event) => {
-        event.stopPropagation(); // prevent click from bubbling to playlist
-        if (event.target.textContent === "♡") {
-            likePlaylist(i);
-        } else {
-            unlikePlaylist(i);
+const likeClickResponse = () => {
+    // only do this if we are on the index.html page
+    if (!window.location.pathname.includes("featured.html")) {
+        for (let i = 1; i <= playlists.length; i++) {
+            document.querySelector('#like-button' + i).addEventListener('click', (event) => {
+            event.stopPropagation(); // prevent click from bubbling to playlist
+            if (event.target.textContent === "♡") {
+                likePlaylist(i);
+            } else {
+                unlikePlaylist(i);
+            }
+            });
         }
-        });
     }
 }
 
@@ -296,15 +220,97 @@ const updateSongs = (songs, playlistID) =>{
     modalBody.replaceWith(newBody);
 }
 
-// only do this if we are on the index.html page
-if (!window.location.pathname.includes("featured.html")) {
-  for (let i = 1; i <= num_playlists; i++) {
-    document.getElementById('shuffle-button' + i).addEventListener('click', () => {
-        shufflePlaylist(''+i);
-        updateSongs(playlists[i-1].songs, i);
-    });
+const shuffleClickResponse = () => {
+    // only do this if we are on the index.html page
+    if (!window.location.pathname.includes("featured.html")) {
+    for (let i = 1; i <= playlists.length; i++) {
+        document.getElementById('shuffle-button' + i).addEventListener('click', () => {
+            shufflePlaylist(''+i);
+            updateSongs(playlists[i-1].songs, i);
+        });
+        }
     }
 }
+
+// =========== DELETE PLAYLISTS ============
+const deletePlaylist = (playlistID) =>{
+
+    for (playlist of playlists){
+        console.log(playlist.playlistID);
+    }
+
+    playlists = playlists.filter(playlist => parseInt(playlist.playlistID) !== parseInt(playlistID));
+
+    //re-number the playlist IDs
+    for (let i = 1; i <= playlists.length; i++) {
+        playlists[i-1].playlistID = i + '';
+    }
+
+    // WANT TO CALL LOAD PLAYLISTS HERE
+    loadPlaylists();
+}
+
+const deleteClickResponse = () => {
+    if(!window.location.pathname.includes("featured.html")){
+        // close on clicking the close button
+        for (let i = 1; i <= playlists.length; i++) {
+            document.querySelector('#delete' + i).addEventListener('click', () => {
+                event.stopPropagation();
+                deletePlaylist(i + '');
+        });}
+    }
+}
+
+
+// =========== LOAD PLAYLISTS ============
+// parse through the playlists hashmap to populate the playlist cards
+const loadPlaylists = () => {
+
+    console.log("load playlists called");
+    console.log(playlists);
+
+    if(!playlists){
+
+        // Display error message on a popup modal
+        const errorElement = document.createElement("div");
+        errorElement.innerHTML  = `
+        <section class="modal-overlay">
+            <div class="modal-content">
+                <h1>No Playlists to Display :( <h1>
+            </div>
+        </section>
+        `
+
+        const body = document.querySelector("body");
+        body.append(errorElement);
+    }
+    else{
+        // iterate through the playlists and add each one to the elements
+        // for(const playlist of playlists){
+        //     insertPlaylistElement(playlist);
+        // }
+        html = `<section class="playlist-row">`;
+        for(let i = 0; i < playlists.length; i++){
+            if (i % 4 === 0 && i !== 0) {
+                console.log(i);
+                //close the row and start a new one
+                html += `</section>`;
+                html += `<section class="playlist-row">`;
+            }
+            loadSongs(playlists[i].songs, playlists[i]);
+            html += createPlaylistElement(playlists[i]); // append playlist code
+        }
+        html += `</section>`;
+
+        playlistsElement = document.getElementById("playlist-container");
+        playlistsElement.innerHTML = html; // update the html
+
+        modalClickResponse(); // open modal on click
+        likeClickResponse(); // like button
+        shuffleClickResponse(); // shuffle button
+        deleteClickResponse(); // delete button
+    }
+};
 
 
 // =========== FEATURED PAGE ============
@@ -333,5 +339,61 @@ const loadFeaturedPlaylist = (playlist) => {
 }
 
 if (window.location.pathname.includes("featured.html")) {
-    loadFeaturedPlaylist(playlists[Math.floor(Math.random() * num_playlists)]);
+    loadFeaturedPlaylist(playlists[Math.floor(Math.random() * playlists.length)]);
+}
+
+
+// =========== ADD PLAYLISTS ============
+
+if (!window.location.pathname.includes("featured.html")) {
+
+    const handleSubmit = (event) => {
+        console.log("Form submitted");
+        event.preventDefault(); // making sure there are things to submit
+
+        const playlist_name = document.querySelector("#playlist-name").value;
+        const playlist_author = document.querySelector("#playlist-author").value;
+
+        const song_name = document.querySelector("#song-name").value;
+        const artist = document.querySelector("#song-artist").value;
+        const album = document.querySelector("#song-album").value;
+        const duration = document.querySelector("#song-duration").value;
+
+        // create a new review object
+        let new_playlist = {
+            "playlistID": (playlists.length + 1) + '',
+            "playlist_name": playlist_name,
+            "playlist_author": playlist_author,
+            "playlist_art": undefined,
+            "likes": 0,
+            "songs": [
+                {
+                    "songID": "1",
+                    "song_name": song_name,
+                    "song_artist": artist,
+                    "song_art": undefined,
+                    "song_album": album,
+                    "song_duration": duration
+
+                }]
+            }
+
+        console.log(new_playlist);
+
+        playlists.push(new_playlist);
+
+        console.log(playlists);
+
+        loadPlaylists(); // update the playlist cards
+
+        event.target.reset(); // reset the form
+
+    }
+
+    const form = document.querySelector("#add-playlist-form");
+    form.addEventListener("submit", handleSubmit);
+}
+
+if (!window.location.pathname.includes("featured.html")) {
+    loadPlaylists();
 }
