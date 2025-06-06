@@ -83,7 +83,7 @@ const createPlaylistElement = (playlist) => {
             <p class="like-image" id="like-button${playlistID}" >♡</p>
             <p id="like-count${playlistID}">${playlist_likes}</p>
         </section>
-        <p class=delete id="delete${playlistID}">❌</p>
+        <p class=delete id="delete${playlistID}">🚮</p>
     </section>
     `
     return html;
@@ -445,4 +445,48 @@ const sortByDate = () => {
     // Sort the playlists array by playlist_name
     playlists = playlists.sort((a, b) => b.date_created - a.date_created);
     loadPlaylists();
+}
+
+// =========== SEARCH ============
+
+// search by name
+if (!window.location.pathname.includes("featured.html")) {
+
+    const searchByName = (event) => {
+        console.log(" Search by name Form submitted");
+        event.preventDefault(); // making sure there are things to submit
+
+        const name = document.querySelector("#search-by-name").value;
+        playlists = playlists.filter(playlist => playlist.playlist_name.toLowerCase().includes(name.toLowerCase()));
+        loadPlaylists(); // update the playlist cards
+
+        event.target.reset(); // reset the form
+
+    }
+
+    const form = document.getElementById("search-by-name-form");
+    form.addEventListener("submit", searchByName);
+}
+
+// search by author
+if (!window.location.pathname.includes("featured.html")) {
+
+    const searchByAuthor = (event) => {
+        console.log(" Search by author Form submitted");
+        event.preventDefault(); // making sure there are things to submit
+
+        const author = document.querySelector("#search-by-author").value;
+        playlists = playlists.filter(playlist => playlist.playlist_author.toLowerCase().includes(author.toLowerCase()));
+        //re-number the playlist IDs
+        for (let i = 1; i <= playlists.length; i++) {
+            playlists[i-1].playlistID = i + '';
+        }
+
+        loadPlaylists(); // update the playlist cards
+
+        event.target.reset(); // reset the form
+    }
+
+    const form = document.getElementById("search-by-author-form");
+    form.addEventListener("submit", searchByAuthor);
 }
